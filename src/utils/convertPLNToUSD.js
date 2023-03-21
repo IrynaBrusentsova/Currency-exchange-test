@@ -1,6 +1,6 @@
 export const convertPLNToUSD = (PLN) => {
 
-  if (typeof PLN === 'object' || typeof PLN === 'function'||  typeof PLN !== 'number' ||  isalpha(PLN)){
+  if (typeof PLN === 'object' || typeof PLN === 'function'||  typeof PLN !== 'number' ){
     return 'Error';
   }
 
