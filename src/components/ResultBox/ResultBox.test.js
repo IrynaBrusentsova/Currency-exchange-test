@@ -10,23 +10,25 @@ const testCases = [
 ];
 
 for(const testObj of testCases){
+
   describe('Component ResultBox', () => {
 
     it('should render without crashing', () => {
-        render(<ResultBox from="PLN" to="USD" amount={testObj} />);
+        render(<ResultBox from="PLN" to="USD" amount={100} />);
     });
 
     it ('should render proper info about conversion when PLN -> USD', ()=>{
-        render(<ResultBox from="PLN" to="USD" amount={testObj} />);
+        render(<ResultBox from="PLN" to="USD" amount={Number(testObj.amount)} />);
         const output = screen.getByTestId('output');
         expect(output).toHaveTextContent('PLN 100.00 = $28.57');  
     });
 
     it ('should render proper info about conversion when USD -> PLN', () => {
-        render(<ResultBox from="USD" to="PLN" amount={testObj} />);
+        render(<ResultBox from="USD" to="PLN" amount={Number(testObj.amount)} />);
         const output = screen.getByTestId('output');
         expect(output).toHaveTextContent('USD 100.00 = $350');
     });
+
     
     it ('should render proper info about conversion when PLN 123.00 -> PLN 123.00', () =>{
         render(<ResultBox from="PLN" to="PLN" amount={123.0} />);
@@ -34,7 +36,7 @@ for(const testObj of testCases){
         expect(output).toHaveTextContent("PLN 123.00 = PLN 123.00");
     });
 
-    it('should render "Wrong value..." when amount < 0', () => {
+    it('should render "Wrong value" when amount < 0', () => {
         render(<ResultBox from="USD" to="PLN" amount={-1} />);
         const output = screen.getByTestId("output");
         expect(output).toHaveTextContent("Wrong value");
@@ -42,7 +44,11 @@ for(const testObj of testCases){
       // unmount component
     cleanup()   
 });
+
 }
+
+
+
 
 
 
