@@ -9,61 +9,51 @@ const testCases = [
     { amount: '345', from: 'USD', to: 'PLN' },
 ];
 
-
-
   describe('Component ResultBox', () => {
 
     it('should render without crashing', () => {
         render(<ResultBox from="PLN" to="USD" amount={100} />);
     });
 
-    // it ('should render proper info about conversion when PLN -> USD', ()=>{
-    //     render(<ResultBox from="PLN" to="USD" amount={Number(testObj.amount)} />);
-    //     const output = screen.getByTestId('output');
-    //     expect(output).toHaveTextContent('PLN 100.00 = $28.57');  
-    // });
-
-
     it ('should render proper info about conversion when PLN -> USD', ()=>{
-      const testObj = [100, 50, 200, 350];
-      
-      for (const testObj of testCases){
-
-          
+           
+      for (const testObj of testCases){      
         render(<ResultBox from="PLN" to="USD" amount= {Number(testObj.amount)} />);
         const output = screen.getByTestId('output');
-
-
-        expect(output).toHaveTextContent(`${Number(testObj.amount)}.00 = PLN ${Number(testObj.amount)*3.5}.00`);
-
-        cleanup();
-      }
-    });
-
-
-    it ('should render proper info about conversion when USD -> PLN', () => {
-
-      const testObj = [90, 80, 10, 100];
-      
-       for (const testObj of testCases){
-          
-        render(<ResultBox from="USD" to="PLN" amount= {Number(testObj.amount)} />);
-        const output = screen.getByTestId('output');
-
         expect(output).toHaveTextContent(`PLN ${ Number(testObj.amount)}.00 = $${
           Math.round((Number(testObj.amount) / 3.5) * 100)/100
         }`
         );
+        cleanup();
+      }
+    });
+
+    it ('should render proper info about conversion when USD -> PLN', () => {
+       for (const testObj of testCases){    
+        render(<ResultBox from="USD" to="PLN" amount= {Number(testObj.amount)} />);
+        const output = screen.getByTestId('output');
+
+        expect(output).toHaveTextContent(`$${Number(testObj.amount)} = PLN ${Number(testObj.amount)*3.5}.00`);
         
         cleanup();
       }
     });   
 
+    it('should render proper info when same currency is selected in both options', () => {
+      const currencies = ['USD', 'PLN'];
     
-    it ('should render proper info about conversion when PLN 123.00 -> PLN 123.00', () =>{
-        render(<ResultBox from="PLN" to="PLN" amount={123.0} />);
+      for(let currency of currencies){
+        render(< ResultBox amount={123} from={currency} to={currency} />);
         const output = screen.getByTestId("output");
-        expect(output).toHaveTextContent("PLN 123.00 = PLN 123.00");
+        if(currency === 'USD'){
+       
+          expect(output).toHaveTextContent('$123.00 = $123.00');
+        } else {
+        
+          expect(output).toHaveTextContent('PLN 123.00 = PLN 123.00');
+        }
+        cleanup();
+      }
     });
 
     it('should render "Wrong value" when amount < 0', () => {
