@@ -22,15 +22,19 @@ const testCases = [
     //     const output = screen.getByTestId('output');
     //     expect(output).toHaveTextContent('PLN 100.00 = $28.57');  
     // });
-    
+
 
     it ('should render proper info about conversion when PLN -> USD', ()=>{
-      for (testObj of testCases){
+      const testObj = [100, 50, 200, 350];
+      
+      for (const testObj of testCases){
+
           
         render(<ResultBox from="PLN" to="USD" amount= {Number(testObj.amount)} />);
         const output = screen.getByTestId('output');
 
-        expect(output).toHaveTextContent(`$${Number(testObj.amount)}.00 = PLN ${Number(testObj.amount)*3.5}.00`);
+
+        expect(output).toHaveTextContent(`${Number(testObj.amount)}.00 = PLN ${Number(testObj.amount)*3.5}.00`);
 
         cleanup();
       }
@@ -38,7 +42,10 @@ const testCases = [
 
 
     it ('should render proper info about conversion when USD -> PLN', () => {
-       for (testObj of testCases){
+
+      const testObj = [90, 80, 10, 100];
+      
+       for (const testObj of testCases){
           
         render(<ResultBox from="USD" to="PLN" amount= {Number(testObj.amount)} />);
         const output = screen.getByTestId('output');
